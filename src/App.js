@@ -15,7 +15,7 @@ const App = () => {
         <h1 className="App-title">Payments</h1>
       </header>
       <Balance total={balance} rates={rates} setRates={setRates} />
-      <CalcPayment currencies={currencies} />
+      <CalcPayment currencies={currencies} rates={rates} setRates={setRates} />
       <h2>Payments</h2>
       <Payments rates={rates} />
     </div>

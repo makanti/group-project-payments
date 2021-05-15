@@ -1,17 +1,34 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import "./CalcPayment.css";
 
-const Payment = (props) => {
+const Payment = ({ currencies, rates, setRates }) => {
   const [selectedCurrency, setSelectedCurrency] = useState("USD");
-  const [amount, setAmount] = useState("USD");
+  const [amount, setAmount] = useState("0.00");
+  const [convertedValue, setConvertedValue] = useState("0.00");
 
   const selectCurrency = (event) => {
     const currency = event.target.value;
     setSelectedCurrency(currency);
   };
 
-  const { currencies } = props;
+  const amountInput = (event) => {
+    setAmount(event.target.value);
+  };
+
+  const handleChange = () => {
+    setConvertedValue((amount * rates["GBP"]).toFixed(2));
+  };
+
+  useEffect(() => {
+    fetch(`https://api.frankfurter.app/latest?from=${selectedCurrency}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setRates(data.rates);
+      })
+      .catch((err) => console.error(err));
+  }, [selectedCurrency]);
+
   return (
     <div className="CalcPayment">
       <h2 className="CalcPayment-label">Calculate Payment in GBP</h2>
@@ -21,10 +38,15 @@ const Payment = (props) => {
             <option key={index}>{currency}</option>
           ))}
         </select>
-        <input className="CalcPayment-amount" type="text" defaultValue="0.00" />
-        is worth <span className="CalcPayment-result">???</span> in GBP.
+        <input
+          onChange={amountInput}
+          className="CalcPayment-amount"
+          type="text"
+          defaultValue="0.00"
+        />
+        is worth <span className="CalcPayment-result"> {convertedValue} </span> in GBP.
         <div className="CalcPayment-calculate">
-          <Button>Calculate</Button>
+          <Button onClick={handleChange}>Calculate</Button>
         </div>
       </div>
     </div>
