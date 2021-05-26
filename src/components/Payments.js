@@ -38,7 +38,7 @@ function Payments({ rates, paymentData }) {
         <tr>
           <td />
           <td />
-          <td> {showTotal()}</td>
+          <td>{rates ? showTotal() : "Loading..."}</td>
           <td>Total (GBP)</td>
           <td />
           <td />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Button from "./Button";
 import "./CalcPayment.css";
 
@@ -7,18 +7,11 @@ const Payment = ({ rates }) => {
   const [amount, setAmount] = useState("0.00");
   const [convertedValue, setConvertedValue] = useState("0.00");
 
-  const selectCurrency = (event) => {
-    const currency = event.target.value;
-    setSelectedCurrency(currency);
-  };
+  const selectCurrency = (event) => setSelectedCurrency(event.target.value);
 
-  const amountInput = (event) => {
-    setAmount(event.target.value);
-  };
+  const amountInput = (event) => setAmount(event.target.value);
 
-  const handleChange = () => {
-    setConvertedValue((amount / rates[selectedCurrency]).toFixed(2));
-  };
+  const handleChange = () => setConvertedValue((amount / rates[selectedCurrency]).toFixed(2));
 
   return (
     <div className="CalcPayment">
