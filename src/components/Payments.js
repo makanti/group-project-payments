@@ -3,10 +3,10 @@ import "./Payments.css";
 import SinglePayment from "./SinglePayment";
 import payments from "../data/payments";
 
-function Payments({ rates }) {
+function Payments({ rates, paymentData }) {
   const showTotal = () => {
     let total = 0;
-    payments.map((element) => {
+    paymentData.map((element) => {
       if (element.currency === "GBP") {
         total += Number(element.amount);
       } else {
@@ -28,7 +28,7 @@ function Payments({ rates }) {
         </tr>
       </thead>
       <tbody>
-        {payments.map((payment, index) => {
+        {paymentData.map((payment, index) => {
           // for each payment object of payments array => return <SinglePayment /> and pass payment object as a prop
           return <SinglePayment payment={payment} key={index} />;
         })}
