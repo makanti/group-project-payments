@@ -7,16 +7,20 @@ const MakePayment = ({ rates, paymentData, setPaymentData }) => {
   const [amount, setAmount] = useState("0.00");
   const [description, setDescription] = useState("");
 
-  const selectCurrency = (event) => {
+  const handleCurrencyChange = (event) => {
     const currency = event.target.value;
     setSelectedCurrency(currency);
   };
 
-  const amountInput = (event) => {
-    setAmount(event.target.value);
+  const handleAmountChange = (event) => {
+    const newAmount = event.target.value;
+    if (!Number(newAmount)) {
+      alert("The amount must be a number");
+    }
+    setAmount(newAmount);
   };
 
-  const descriptionInput = (event) => {
+  const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
 
@@ -41,20 +45,21 @@ const MakePayment = ({ rates, paymentData, setPaymentData }) => {
     <div className="CalcPayment">
       <h2 className="CalcPayment-label">Make Payment</h2>
       <div className="CalcPayment-control">
-        <select onChange={selectCurrency} defaultValue={selectedCurrency}>
+        <select onChange={handleCurrencyChange} defaultValue={selectedCurrency}>
           <option>GBP</option>
           {Object.keys(rates).map((currency, index) => (
             <option key={index}>{currency}</option>
           ))}
         </select>
         <input
-          onChange={amountInput}
+          onChange={handleAmountChange}
           className="CalcPayment-amount"
           type="text"
-          defaultValue="0.00"
+          value={amount}
+          required
         />
         <input
-          onChange={descriptionInput}
+          onChange={handleDescriptionChange}
           className="CalcPayment-description"
           type="text"
           placeholder="Description"
