@@ -11,6 +11,7 @@ const Balance = ({ total, rates, setRates }) => {
       .then((res) => res.json())
       .then((data) => {
         setRates(data.rates);
+        setConvertedValue((total * data.rates["AUD"]).toFixed(2));
       })
       .catch((err) => console.error(err));
   }, []);

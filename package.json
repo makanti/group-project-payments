@@ -6,7 +6,7 @@
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-dropdown-select": "^4.7.4",
-    "react-scripts": "^4.0.3"
+    "react-scripts": "^1.1.5"
   },
   "devDependencies": {
     "husky": "^2.3.0",

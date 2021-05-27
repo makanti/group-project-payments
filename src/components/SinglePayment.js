@@ -9,16 +9,8 @@ const SinglePayment = ({ payment }) => {
       <td>{currency}</td>
       <td>{amount}</td>
       <td>{description}</td>
-      {status === "Pending" ? (
-        <>
-          <td>{status}</td>
-          <td>
-            <Button>Cancel</Button>
-          </td>
-        </>
-      ) : (
-        <td>{status}</td>
-      )}
+      <td>{status}</td>
+      <td>{status === "Pending" && <Button>Cancel</Button>}</td>
     </tr>
   );
 };
