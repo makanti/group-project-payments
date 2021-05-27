@@ -3,14 +3,14 @@ import "./Payments.css";
 import SinglePayment from "./SinglePayment";
 import payments from "../data/payments";
 
-function Payments() {
+function Payments({ paymentData }) {
   const [total, setTotal] = useState(0);
   const calculateTotal = (payment, data) => {
     differentTotal += Number(payment.amount / data.rates[payment.currency]);
   };
   let differentTotal = 0;
   const forLoop = async () => {
-    for (let i = 0; i < payments.length; i++) {
+    for (let i = 0; i < paymentData.length; i++) {
       if (payments[i].currency !== "GBP") {
         await fetch(`https://api.frankfurter.app/${payments[i].date}?from=GBP`)
           .then((res) => res.json())
@@ -38,7 +38,7 @@ function Payments() {
         </tr>
       </thead>
       <tbody>
-        {payments.map((payment, index) => {
+        {paymentData.map((payment, index) => {
           // for each payment object of payments array => return <SinglePayment /> and pass payment object as a prop
           return <SinglePayment payment={payment} key={index} />;
         })}
