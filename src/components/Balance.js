@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import "./Balance.css";
 
 const Balance = ({ total, rates, setRates }) => {
-  const [convertTo, setConvertTo] = useState("USD");
   const [convertedValue, setConvertedValue] = useState("");
   const convertFrom = "GBP";
 
@@ -17,8 +16,7 @@ const Balance = ({ total, rates, setRates }) => {
   }, []);
 
   const handleChange = (currency) => {
-    setConvertTo(currency);
-    setConvertedValue((total * rates[convertTo]).toFixed(2));
+    setConvertedValue((total * rates[currency]).toFixed(2));
   };
 
   return (
