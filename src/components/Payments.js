@@ -1,20 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Payments.css";
 import SinglePayment from "./SinglePayment";
-import payments from "../data/payments";
 
-function Payments({ rates, paymentData }) {
-  const showTotal = () => {
-    let total = 0;
-    paymentData.map((element) => {
-      if (element.currency === "GBP") {
-        total += Number(element.amount);
-      } else {
-        total += Number(element.amount / rates[element.currency]);
-      }
-    });
-    return total.toFixed(2);
+function Payments({ paymentData }) {
+  const [sum, setSum] = useState(0);
+
+  const calculateSum = (payment, data) => {
+    sumOfPayments += Number(payment.amount / data.rates[payment.currency]);
   };
+
+  let sumOfPayments = 0;
+
+  const fetchRatesAndCalculateSum = async () => {
+    for (let i = 0; i < paymentData.length; i++) {
+      if (paymentData[i].currency !== "GBP") {
+        await fetch(`https://api.frankfurter.app/${paymentData[i].date}?from=GBP`)
+          .then((res) => res.json())
+          .then((data) => calculateSum(paymentData[i], data))
+          .catch((error) => console.error(error));
+      } else {
+        sumOfPayments += Number(paymentData[i].amount);
+      }
+    }
+    setSum(sumOfPayments.toFixed(2));
+  };
+
+  fetchRatesAndCalculateSum();
+
   return (
     <table className="Payments">
       <thead>
@@ -38,7 +50,7 @@ function Payments({ rates, paymentData }) {
         <tr>
           <td />
           <td />
-          <td>{rates ? showTotal() : "Loading..."}</td>
+          <td>{sum > 0 ? sum : "Loading..."}</td>
           <td>Total (GBP)</td>
           <td />
           <td />
