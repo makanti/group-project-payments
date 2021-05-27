@@ -1,20 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Payments.css";
 import SinglePayment from "./SinglePayment";
 import payments from "../data/payments";
 
-function Payments({ rates, paymentData }) {
-  const showTotal = () => {
-    let total = 0;
-    paymentData.map((element) => {
-      if (element.currency === "GBP") {
-        total += Number(element.amount);
-      } else {
-        total += Number(element.amount / rates[element.currency]);
-      }
-    });
-    return total.toFixed(2);
+function Payments() {
+  const [total, setTotal] = useState(0);
+  const calculateTotal = (payment, data) => {
+    differentTotal += Number(payment.amount / data.rates[payment.currency]);
   };
+  let differentTotal = 0;
+  const forLoop = async () => {
+    for (let i = 0; i < payments.length; i++) {
+      if (payments[i].currency !== "GBP") {
+        await fetch(`https://api.frankfurter.app/${payments[i].date}?from=GBP`)
+          .then((res) => res.json())
+          .then((data) => calculateTotal(payments[i], data))
+          .catch((error) => console.error(error));
+      } else {
+        differentTotal += Number(payments[i].amount);
+      }
+    }
+    setTotal(differentTotal.toFixed(2));
+  };
+
+  forLoop();
+
   return (
     <table className="Payments">
       <thead>
@@ -28,7 +38,7 @@ function Payments({ rates, paymentData }) {
         </tr>
       </thead>
       <tbody>
-        {paymentData.map((payment, index) => {
+        {payments.map((payment, index) => {
           // for each payment object of payments array => return <SinglePayment /> and pass payment object as a prop
           return <SinglePayment payment={payment} key={index} />;
         })}
@@ -38,7 +48,7 @@ function Payments({ rates, paymentData }) {
         <tr>
           <td />
           <td />
-          <td>{rates ? showTotal() : "Loading..."}</td>
+          <td>{total > 0 ? total : "Loading..."}</td>
           <td>Total (GBP)</td>
           <td />
           <td />

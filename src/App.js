@@ -3,7 +3,6 @@ import Balance from "./components/Balance";
 import CalcPayment from "./components/CalcPayment";
 import MakePayment from "./components/MakePayment";
 import Payments from "./components/Payments";
-import currencies from "./data/currencies";
 import "./App.css";
 import payments from "./data/payments";
 
