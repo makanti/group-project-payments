@@ -1,15 +1,24 @@
 import React, { useState } from "react";
 import "./Payments.css";
-import SinglePayment from "./SinglePayment";
+import Table from "./Table";
 
 function Payments({ paymentData }) {
-  const [sum, setSum] = useState(0);
+  const pendingPayments = paymentData.filter((payment) => payment.status === "Pending");
+  const completedPayments = paymentData.filter((payment) => payment.status === "Complete");
+
+  const [pendingSum, setPendingSum] = useState(0);
+  const [completedSum, setCompletedSum] = useState(0);
 
   const calculateSum = (payment, data) => {
-    sumOfPayments += Number(payment.amount / data.rates[payment.currency]);
+    if (payment.status === "Pending") {
+      sumOfPendingPayments += Number(payment.amount / data.rates[payment.currency]);
+    } else {
+      sumOfCompletedPayments += Number(payment.amount / data.rates[payment.currency]);
+    }
   };
 
-  let sumOfPayments = 0;
+  let sumOfPendingPayments = 0;
+  let sumOfCompletedPayments = 0;
 
   const fetchRatesAndCalculateSum = async () => {
     for (let i = 0; i < paymentData.length; i++) {
@@ -19,45 +28,24 @@ function Payments({ paymentData }) {
           .then((data) => calculateSum(paymentData[i], data))
           .catch((error) => console.error(error));
       } else {
-        sumOfPayments += Number(paymentData[i].amount);
+        if (paymentData[i].status === "Pending") {
+          sumOfPendingPayments += Number(paymentData[i].amount);
+        } else {
+          sumOfCompletedPayments += Number(paymentData[i].amount);
+        }
       }
     }
-    setSum(sumOfPayments.toFixed(2));
+    setPendingSum(sumOfPendingPayments.toFixed(2));
+    setCompletedSum(sumOfCompletedPayments.toFixed(2));
   };
 
   fetchRatesAndCalculateSum();
 
   return (
-    <table className="Payments">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Cur</th>
-          <th>Amount</th>
-          <th className="Payments-description">Description</th>
-          <th>Status</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {paymentData.map((payment, index) => {
-          // for each payment object of payments array => return <SinglePayment /> and pass payment object as a prop
-          return <SinglePayment payment={payment} key={index} />;
-        })}
-      </tbody>
-
-      <tfoot>
-        <tr>
-          <td />
-          <td />
-          <td>{sum > 0 ? sum : "Loading..."}</td>
-          <td>Total (GBP)</td>
-          <td />
-          <td />
-        </tr>
-      </tfoot>
-    </table>
+    <div>
+      <Table paymentData={pendingPayments} sum={pendingSum} />
+      <Table paymentData={completedPayments} sum={completedSum} />
+    </div>
   );
 }
-
 export default Payments;
