@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import "./Payments.css";
 import Table from "./Table";
 
-function Payments({ paymentData }) {
+function Payments({ paymentData, setPaymentData }) {
   const pendingPayments = paymentData.filter((payment) => payment.status === "Pending");
   const completedPayments = paymentData.filter((payment) => payment.status === "Complete");
+
+  const [pendingPay, setPendingPay] = useState(pendingPayments);
 
   const [pendingSum, setPendingSum] = useState(0);
   const [completedSum, setCompletedSum] = useState(0);
@@ -43,7 +45,7 @@ function Payments({ paymentData }) {
 
   return (
     <div>
-      <Table paymentData={pendingPayments} sum={pendingSum} />
+      <Table paymentData={pendingPay} sum={pendingSum} setPaymentData={setPendingPay} />
       <Table paymentData={completedPayments} sum={completedSum} />
     </div>
   );

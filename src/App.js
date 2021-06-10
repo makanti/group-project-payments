@@ -7,10 +7,13 @@ import "./App.css";
 import payments from "./data/payments";
 
 const App = () => {
+  const balance = 87.43;
+
   const [rates, setRates] = useState("");
+
   const [paymentData, setPaymentData] = useState(payments);
 
-  const balance = 87.43;
+  const [dynamicBalance, setDynamicBalance] = useState(balance);
 
   return (
     <div className="App">
@@ -21,7 +24,7 @@ const App = () => {
       <CalcPayment rates={rates} />
       <MakePayment rates={rates} paymentData={paymentData} setPaymentData={setPaymentData} />
       <h2>Payments</h2>
-      <Payments rates={rates} paymentData={paymentData} />
+      <Payments rates={rates} paymentData={paymentData} setPaymentData={setPaymentData} />
     </div>
   );
 };

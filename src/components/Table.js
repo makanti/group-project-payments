@@ -1,6 +1,7 @@
 import React from "react";
 import SinglePayment from "./SinglePayment";
-const Table = ({ paymentData, sum }) => {
+
+const Table = ({ paymentData, sum, setPaymentData }) => {
   return paymentData.length > 0 ? (
     <table className="Payments">
       <thead>
@@ -15,7 +16,15 @@ const Table = ({ paymentData, sum }) => {
       </thead>
       <tbody>
         {paymentData.map((payment, index) => {
-          return <SinglePayment payment={payment} key={index} />;
+          return (
+            <SinglePayment
+              payment={payment}
+              key={index}
+              index={index}
+              setPaymentData={setPaymentData}
+              paymentData={paymentData}
+            />
+          );
         })}
       </tbody>
       <tfoot>
