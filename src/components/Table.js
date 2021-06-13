@@ -1,7 +1,7 @@
 import React from "react";
 import SinglePayment from "./SinglePayment";
 
-const Table = ({ paymentData, sum, setPaymentData }) => {
+const Table = ({ paymentData, sum, setPaymentData, allPaymentData }) => {
   return paymentData.length > 0 ? (
     <table className="Payments">
       <thead>
@@ -23,6 +23,7 @@ const Table = ({ paymentData, sum, setPaymentData }) => {
               index={index}
               setPaymentData={setPaymentData}
               paymentData={paymentData}
+              allPaymentData={allPaymentData}
             />
           );
         })}
