@@ -10,11 +10,9 @@ const App = () => {
   const balance = 87.43;
 
   const [rates, setRates] = useState("");
-
   const [paymentData, setPaymentData] = useState(payments);
   const [paymentsTotal, setPaymentsTotal] = useState(0);
 
-  const [dynamicBalance, setDynamicBalance] = useState(balance);
   return (
     <div className="App">
       <header className="App-header">
@@ -22,7 +20,13 @@ const App = () => {
       </header>
       <Balance total={balance - paymentsTotal} rates={rates} setRates={setRates} />
       <CalcPayment rates={rates} />
-      <MakePayment rates={rates} paymentData={paymentData} setPaymentData={setPaymentData} />
+      <MakePayment
+        rates={rates}
+        paymentData={paymentData}
+        setPaymentData={setPaymentData}
+        paymentsTotal={paymentsTotal}
+        balance={balance}
+      />
       <h2>Payments</h2>
       <Payments
         rates={rates}

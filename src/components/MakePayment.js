@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Button from "./Button";
 import "./CalcPayment.css";
 
-const MakePayment = ({ rates, paymentData, setPaymentData }) => {
+const MakePayment = ({ rates, paymentData, setPaymentData, balance, paymentsTotal }) => {
   const [selectedCurrency, setSelectedCurrency] = useState("GBP");
   const [amount, setAmount] = useState();
   const [description, setDescription] = useState("");
+  const [enoughMoney, setEnoughMoney] = useState(true);
 
   const handleCurrencyChange = (event) => {
     const currency = event.target.value;
@@ -22,7 +23,7 @@ const MakePayment = ({ rates, paymentData, setPaymentData }) => {
   };
 
   const handlePaymentChange = () => {
-    if (amount > 0 && description) {
+    if (amount > 0 && description && amount < balance - paymentsTotal) {
       const newPayment = {
         date: getCurrentDate(),
         currency: selectedCurrency,
@@ -31,6 +32,8 @@ const MakePayment = ({ rates, paymentData, setPaymentData }) => {
         status: "Complete"
       };
       setPaymentData([newPayment, ...paymentData]);
+    } else {
+      setEnoughMoney(false);
     }
   };
 
@@ -67,6 +70,10 @@ const MakePayment = ({ rates, paymentData, setPaymentData }) => {
             required="required"
           />
         </form>
+        {!enoughMoney && (
+          <h3 style={{ color: "red" }}>"Oops, not enough money for this payment..."</h3>
+        )}
+
         <div className="CalcPayment-calculate">
           <Button onClick={handlePaymentChange}>Make Payment</Button>
         </div>
