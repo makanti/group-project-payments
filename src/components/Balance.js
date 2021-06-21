@@ -23,7 +23,7 @@ const Balance = ({ total, rates, setRates }) => {
     <div className="total">
       <h2 className="Balance-title">
         Your account balance is
-        <span className="Balance-total">£{total}</span>
+        <span className="Balance-total">£{total.toFixed(2)}</span>
       </h2>
       <div className="Balance-alt">
         {convertedValue !== "" && `Your balance is ${convertedValue}`}

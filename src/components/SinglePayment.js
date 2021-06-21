@@ -1,8 +1,13 @@
 import React from "react";
 import Button from "./Button";
 
-const SinglePayment = ({ payment }) => {
+const SinglePayment = ({ payment, index, setPaymentData, paymentData, allPaymentData }) => {
   const { date, currency, amount, description, status } = payment;
+
+  const cancelPendingPayment = () => {
+    setPaymentData([...allPaymentData.slice(index + 1)]);
+  };
+
   return (
     <tr>
       <td>{date}</td>
@@ -10,7 +15,9 @@ const SinglePayment = ({ payment }) => {
       <td>{amount}</td>
       <td>{description}</td>
       <td>{status}</td>
-      <td>{status === "Pending" && <Button>Cancel</Button>}</td>
+      <td>
+        {status === "Pending" && <Button onClick={() => cancelPendingPayment()}>Cancel</Button>}
+      </td>
     </tr>
   );
 };
