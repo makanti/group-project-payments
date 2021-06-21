@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "./Button";
 
-const SinglePayment = ({ payment, index, setPaymentData, paymentData, allPaymentData }) => {
+const SinglePayment = ({ payment, index, setPaymentData, allPaymentData }) => {
   const { date, currency, amount, description, status } = payment;
 
   const cancelPendingPayment = () => {
